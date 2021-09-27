@@ -9,8 +9,8 @@ function Display({cameraPosition, tideLevel, changeTide, board, resolution, move
                 <button onClick={() => move(-1, board)}>MOVE LEFT</button>
                 <button onClick={() => move(1, board)}>MOVE RIGHT</button>
                 
-                <button onClick={() => changeTide(tideLevel-1)}>RAISE TIDE</button>
-                <button onClick={() => changeTide(tideLevel+1)}>LOWER TIDE</button>
+                <button onClick={() => changeTide(-1, board)}>RAISE TIDE</button>
+                <button onClick={() => changeTide(1, board)}>LOWER TIDE</button>
                
                 <button onClick={() => moveCam(0,-1)}>CAM UP</button>
                 <button onClick={() => moveCam(0,1)}>CAM DOWN</button>

@@ -40,37 +40,40 @@ function App() {
     const newBoatRight= board[tideLevel - 1][newX + 1]
 
     const canMove = () => {
-      return newBoatLeft !== 'x' && newBoatRight !== 'x' && newX >=0 && newX + 1 < board[0].length - 4
+      return newBoatLeft !== 'x' && newBoatRight !== 'x' && newX >=0 && newX < board[0].length - 1
     }
-
     const shouldMoveCam = () => {
-      return canMove() && !( newX - Math.round(resolution.displayWidth/2) + 2 <= 0 || board[0].length - resolution.displayWidth/2 <= newX )
+      return canMove() && !( newX < resolution.displayWidth/2) && board[0].length - newX > 8
     }
 
     canMove() ? setBoatPosition(newX) : console.log("cant move")
     shouldMoveCam() ? moveCam(changeX, 0) : console.log ("didn't move cam")
-
-    
-    
-
   }
 
-  function changeTide(newTideLevel) {
+  function changeTide(changeY, board) {
+    const newY = tideLevel + changeY
+    console.log(newY, Math.round(resolution.displayHeight/2), board.length)
     let newBoatLeft
     let newBoatRight
 
-    newTideLevel >= 1 ? newBoatLeft = board[newTideLevel - 1][boatPosition] : console.log("no")
-    newTideLevel >= 1 ? newBoatRight = board[newTideLevel - 1][boatPosition + 1] : console.log("no")
+    newY >= 1 ? newBoatLeft = board[newY - 1][boatPosition] : console.log("no")
+    newY >= 1 ? newBoatRight = board[newY - 1][boatPosition + 1] : console.log("no")
 
-    const canMove = () => newBoatLeft !== 'x' && newBoatRight !== 'x' && newTideLevel >=1 && newTideLevel < board.length
+    const canMove = () => newBoatLeft !== 'x' && newBoatRight !== 'x' && newY >=1 && newY < board.length - 1
+    const shouldMoveCam = () => {
+      return canMove() && !( tideLevel < 5 || board.length - tideLevel < 5 )
+    }
 
-    canMove() ? setTideLevel(newTideLevel) : console.log("cannot change tide")
+    canMove() ? setTideLevel(newY) : console.log("cannot change tide")
+    shouldMoveCam() ? moveCam(0, changeY) : console.log ("didn't move cam")
+
+    
   }
 
   function moveCam(changeX, changeY) {
     const newX = cameraPosition.x + changeX
     const newY = cameraPosition.y + changeY
-    const canMoveCam = () => newX >=0 && newY >=0 && newY + resolution.displayHeight < board.length && newX + resolution.displayWidth < board[0].length
+    const canMoveCam = () => newX >=0 && newY >=0 && newY + resolution.displayHeight < board.length && newX + resolution.displayWidth < board[0].length + 2
 
     canMoveCam() ? setCameraPosition( { x: newX, y: newY } ) : console.log("can't move cam")
   }
