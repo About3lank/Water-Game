@@ -8,7 +8,7 @@ import KeystrokeEventHandler from './KeystrokeEventHandler.js'
 function App() {
  
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0 })
-  const [tideLevel, setTideLevel] = useState(6)
+  const [tideLevel, setTideLevel] = useState(5)
 
   const resolution = {displayWidth: 16, displayHeight: 9}
   const boardData = [
@@ -30,33 +30,45 @@ function App() {
             ]
 
   function move(newX, newY) {
-    console.log('move clicked')
-    if ( newX >= 0 && newY >= 0) {
-    setCameraPosition( { x: newX, y: newY } )
-    }
+
+    newX >= 0 && newY >= 0 ? setCameraPosition( { x: newX, y: newY } ) : console.log("cannot move") 
+  }
+
+  function changeTide(newTideLevel) {
+    // console.log("tide button clicked, attempting tide level:", newTideLevel)
+    newTideLevel >=0 && newTideLevel <= board.length ? setTideLevel(newTideLevel) : console.log("cannot change tide")
   }
 
   function fillTideLevel(board, tideLevel) {
+    board.map ( ( row, i ) => ( 
+      row.map( ( cell, n ) => ( 
+        i>= tideLevel && cell !== 'x' ? board[i][n] = 'U' : console.log( "passed: ", cell ) 
+        ) )  
+    ) )
 
-    const aboveWater = [ ...board.slice(0, tideLevel)]
-    const belowWater = [ ...board.slice(tideLevel, board.length).map(r => r.map( c => c === 'x' ? c = c : c = 'U')) ]
-  
-    
-    return [ ...aboveWater, ...belowWater ]
+    return board
+  }
 
+  function placeBoat(board, tideLevel, displayWidth) {
+    board[tideLevel - 1][cameraPosition.x + displayWidth/2 ] = 'B'
+    board[tideLevel - 1][cameraPosition.x + displayWidth/2 - 1 ] = 'B'
+
+    return board
   }
 
   let board = boardData.map( row => row.split(','))
-  console.log(board)
-
   board = fillTideLevel(board, tideLevel)
+  board = placeBoat(board, tideLevel, resolution.displayWidth)
+
+  console.log("board: ", board)
+  
 
   return (
     <>
       <h1>Water Game</h1>
       
       <div id="game-container">
-        <Display cameraPosition={cameraPosition} resolution={resolution} level={board} move={move} />
+        <Display cameraPosition={cameraPosition} tideLevel={tideLevel} changeTide={changeTide} resolution={resolution} level={board} move={move} />
         {/* <KeystrokeEventHandler /> */}
       </div>
     </>

@@ -2,7 +2,6 @@ function RenderDisplay(props) {
     const { level, cameraPosition, resolution } = props
     const { x, y } = cameraPosition
 
-
     const { displayWidth, displayHeight } = resolution
 
     console.log("level: ", level)
