@@ -42,10 +42,14 @@ td {
   width: 32px;
 }
 
-td.w {
+td.U {
   background-color:royalblue;
 }
 
 td.x {
   background-color: saddlebrown;
+}
+
+td.w {
+  background-color:skyblue;
 }

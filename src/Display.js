@@ -1,7 +1,7 @@
 import RenderDisplay from './RenderDisplay.js'
 
-function Display({position, setPosition, level, resolution, move}) {
-    const { x, y } = position
+function Display({cameraPosition, level, resolution, move}) {
+    const { x, y } = cameraPosition
     const {displayWidth, displayHeight} = resolution
 
 
@@ -15,7 +15,7 @@ function Display({position, setPosition, level, resolution, move}) {
                 <button onClick={() => {move(x,y+1)}}>MOVE DOWN</button>
             </div>
 
-            <RenderDisplay level={level} position={position} resolution={resolution} />
+            <RenderDisplay level={level} cameraPosition={cameraPosition} resolution={resolution} />
         </>
     )
 }
