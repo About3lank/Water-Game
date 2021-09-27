@@ -1,16 +1,10 @@
 function RenderDisplay(props) {
-    const { level, cameraPosition, resolution } = props
+    const { board, cameraPosition, resolution } = props
     const { x, y } = cameraPosition
-
     const { displayWidth, displayHeight } = resolution
 
-    console.log("level: ", level)
-    console.log("x, y, displayHeight: ", x, y, displayHeight)
-
-    let view = level.slice(y, y + displayHeight)
+    let view = board.slice(y, y + displayHeight)
     .map( row => row.slice(x, x + displayWidth))
-    
-    console.log("viewing: ", view)
 
     return (
         <table id="game-display">
