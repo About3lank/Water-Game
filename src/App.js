@@ -40,10 +40,11 @@ function App() {
     const newBoatRight= board[tideLevel - 1][newX + 1]
 
     const canMove = () => {
-      return newBoatLeft !== 'x' && newBoatRight !== 'x' && newX >=0 && newX < board[0].length - 1
+      return newBoatLeft !== 'x' && newBoatRight !== 'x' && newX >=0 && newX <= board[0].length - 2
     }
     const shouldMoveCam = () => {
-      return canMove() && !( newX < resolution.displayWidth/2) && board[0].length - newX > 8
+      console.log("newX: ", newX)
+      return canMove() && !(boatPosition +1 < Math.round(resolution.displayWidth/2) || board[0].length - boatPosition -1 < (resolution.displayWidth/2) )
     }
 
     canMove() ? setBoatPosition(newX) : console.log("cant move")
@@ -52,7 +53,6 @@ function App() {
 
   function changeTide(changeY, board) {
     const newY = tideLevel + changeY
-    console.log(newY, Math.round(resolution.displayHeight/2), board.length)
     let newBoatLeft
     let newBoatRight
 
@@ -73,7 +73,7 @@ function App() {
   function moveCam(changeX, changeY) {
     const newX = cameraPosition.x + changeX
     const newY = cameraPosition.y + changeY
-    const canMoveCam = () => newX >=0 && newY >=0 && newY + resolution.displayHeight < board.length && newX + resolution.displayWidth < board[0].length + 2
+    const canMoveCam = () => newX >=0 && newY >=0 && newY + resolution.displayHeight < board.length && newX + resolution.displayWidth < board[0].length + 1
 
     canMoveCam() ? setCameraPosition( { x: newX, y: newY } ) : console.log("can't move cam")
   }
@@ -96,9 +96,6 @@ function App() {
     return board
   }
 
-  console.log("board: ", board)
-  
-
   return (
     <>
       <h1>Water Game</h1>
@@ -108,7 +105,6 @@ function App() {
         {/* <KeystrokeEventHandler /> */}
       </div>
     </>
-
 
   );
 }

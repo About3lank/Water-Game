@@ -1,7 +1,7 @@
 import RenderDisplay from './RenderDisplay.js'
 
 function Display({cameraPosition, tideLevel, changeTide, board, resolution, move, moveCam}) {
-    const { x, y } = cameraPosition
+    // const { x, y } = cameraPosition
 
     return (
         <>
